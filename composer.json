@@ -1,0 +1,35 @@
+{
+    "name": "overtrue/laravel-favorite",
+    "description": "User favorite features for Laravel Application.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "overtrue",
+            "email": "anzhengchao@gmail.com"
+        }
+    ],
+    "require": {
+        "laravel/framework": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Overtrue\\LaravelFavorite\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
+    "require-dev": {
+        "laravel/framework": "^5.7",
+        "mockery/mockery": "^1.2",
+        "phpunit/phpunit": "~8",
+        "orchestra/testbench": "^3.7"
+    },
+    "extra": {
+        "laravel": {
+            "providers": ["Overtrue\\LaravelFavorite\\FavoriteServiceProvider"]
+        }
+    }
+}
