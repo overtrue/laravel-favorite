@@ -1,6 +1,6 @@
 <h1 align="center"> Laravel Favorite </h1>
 
-<p align="center">User favorite features for Laravel Application.</p>
+<p align="center">❤️ User favorite feature for Laravel Application.</p>
 
 
 ## Installing
