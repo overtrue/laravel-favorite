@@ -32,10 +32,15 @@
     },
     "extra": {
         "laravel": {
-            "providers": ["Overtrue\\LaravelFavorite\\FavoriteServiceProvider"]
+            "providers": [
+                "Overtrue\\LaravelFavorite\\FavoriteServiceProvider"
+            ]
         },
         "hooks": {
-            "pre-commit": "composer fix-style",
+            "pre-commit": [
+                "composer test",
+                "composer fix-style"
+            ],
             "pre-push": [
                 "composer test",
                 "composer check-style"

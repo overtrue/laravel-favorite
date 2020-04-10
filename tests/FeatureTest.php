@@ -36,7 +36,10 @@ class FeatureTest extends TestCase
         $user->favorite($post);
 
         Event::assertDispatched(Favorited::class, function ($event) use ($user, $post) {
-            return $event->target instanceof Post && $event->user instanceof User && $event->user->id === $user->id && $event->target->id === $post->id;
+            return $event->favorite->favoriteable instanceof Post
+                && $event->favorite->user instanceof User
+                && $event->favorite->user->id === $user->id
+                && $event->favorite->favoriteable->id === $post->id;
         });
 
         $this->assertTrue($user->hasFavorited($post));
@@ -45,7 +48,10 @@ class FeatureTest extends TestCase
         $user->unfavorite($post);
 
         Event::assertDispatched(Unfavorited::class, function ($event) use ($user, $post) {
-            return $event->target instanceof Post && $event->user instanceof User && $event->user->id === $user->id && $event->target->id === $post->id;
+            return $event->favorite->favoriteable instanceof Post
+                && $event->favorite->user instanceof User
+                && $event->favorite->user->id === $user->id
+                && $event->favorite->favoriteable->id === $post->id;
         });
     }
 
