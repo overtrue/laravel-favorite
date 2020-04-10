@@ -136,6 +136,16 @@ foreach($posts as $post) {
 |  `Overtrue\LaravelFavorite\Events\Favorited` | Triggered when the relationship is created. |
 |  `Overtrue\LaravelFavorite\Events\Unfavorited` | Triggered when the relationship is deleted. |
 
+## Related packages
+
+- Follow: [overtrue/laravel-follow](https://github.com/overtrue/laravel-follow)
+- Like: [overtrue/laravel-like](https://github.com/overtrue/laravel-like)
+- Favorite: [overtrue/laravel-favorite](https://github.com/overtrue/laravel-favorite)
+- Subscribe: [overtrue/laravel-subscribe](https://github.com/overtrue/laravel-subscribe)
+- Vote: overtrue/laravel-vote (working in progress)
+- Bookmark: overtrue/laravel-bookmark (working in progress)
+
+
 ## Contributing
 
 You can contribute in one of three ways:
