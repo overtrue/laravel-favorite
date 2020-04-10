@@ -1,11 +1,12 @@
 <?php
 
 /*
- * This file is part of the overtrue/laravel-favorite.
+ * This file is part of the overtrue/laravel-favorite
  *
- * (c) overtrue <anzhengchao@gmail.com>
+ * (c) overtrue <i@overtrue.me>
  *
- * This source file is subject to the MIT license that is bundled.
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Overtrue\LaravelFavorite\Events;
@@ -17,22 +18,13 @@ class Event
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
-    public $user;
-
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    public $target;
+    public $favorite;
 
     /**
      * Event constructor.
-     *
-     * @param \Illuminate\Database\Eloquent\Model $user
-     * @param \Illuminate\Database\Eloquent\Model $target
      */
-    public function __construct(Model $user, Model $target)
+    public function __construct(Model $favorite)
     {
-        $this->user = $user;
-        $this->target = $target;
+        $this->favorite = $favorite;
     }
 }

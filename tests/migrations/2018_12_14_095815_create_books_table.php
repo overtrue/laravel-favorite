@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the overtrue/laravel-favorite.
+ * This file is part of the overtrue/laravel-like.
  *
  * (c) overtrue <anzhengchao@gmail.com>
  *
