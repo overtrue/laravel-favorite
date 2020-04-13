@@ -12,6 +12,7 @@ EOF;
 return PhpCsFixer\Config::create()
     ->setRules([
         '@PSR2' => true,
+        'array_syntax' => ['syntax' => 'short'],
         'header_comment' => ['header' => $header],
         'blank_line_after_opening_tag' => true,
         'braces' => ['allow_single_line_closure' => true],
