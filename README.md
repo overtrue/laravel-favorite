@@ -1,6 +1,6 @@
 <h1 align="center"> Laravel Favorite </h1>
 
-<p align="center">User favorite features for Laravel Application.</p>
+<p align="center">❤️ User favorite feature for Laravel Application.</p>
 
 
 ## Installing
@@ -30,32 +30,32 @@ $ php artisan vendor:publish --provider="Overtrue\\LaravelFavorite\\FavoriteServ
 
 ### Traits
 
-#### `Overtrue\LaravelFavorite\Traits\CanFavorite`
+#### `Overtrue\LaravelFavorite\Traits\Favoriter`
 
 ```php
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Overtrue\LaravelFavorite\Traits\CanFavorite;
+use Overtrue\LaravelFavorite\Traits\Favoriter;
 
 class User extends Authenticatable
 {
-    use Notifiable, CanFavorite;
+    use Favoriter;
     
     <...>
 }
 ```
 
-#### `Overtrue\LaravelFavorite\Traits\CanBeFavorited`
+#### `Overtrue\LaravelFavorite\Traits\Favoriteable`
 
 ```php
 use Illuminate\Database\Eloquent\Model;
-use Overtrue\LaravelFavorite\Traits\CanBeFavorited;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
 
 class Post extends Model
 {
-    use CanBeFavorited;
+    use Favoriteable;
 
     <...>
 }
@@ -75,17 +75,7 @@ $user->hasFavorited($post);
 $post->isFavoritedBy($user); 
 ```
 
-Get User favorited items:
-
-```php
-$items = $user->favoritedItems(); 
-
-foreach ($items as $item) {
-    // 
-}
-```
-
-Get object favoriters:
+#### Get object favoriters:
 
 ```php
 foreach($post->favoriters as $user) {
@@ -121,14 +111,14 @@ foreach($users as $user) {
 To avoid the N+1 issue, you can use eager loading to reduce this operation to just 2 queries. When querying, you may specify which relationships should be eager loaded using the `with` method:
 
 ```php
-// CanFavorite
+// Favoriter
 $users = App\User::with('favorites')->get();
 
 foreach($users as $user) {
     $user->hasFavorited($post);
 }
 
-// CanBeFavorited
+// Favoriteable
 $posts = App\Post::with('favorites')->get();
 // or 
 $posts = App\Post::with('favoriters')->get();
@@ -145,6 +135,16 @@ foreach($posts as $post) {
 | --- | --- |
 |  `Overtrue\LaravelFavorite\Events\Favorited` | Triggered when the relationship is created. |
 |  `Overtrue\LaravelFavorite\Events\Unfavorited` | Triggered when the relationship is deleted. |
+
+## Related packages
+
+- Follow: [overtrue/laravel-follow](https://github.com/overtrue/laravel-follow)
+- Like: [overtrue/laravel-like](https://github.com/overtrue/laravel-like)
+- Favorite: [overtrue/laravel-favorite](https://github.com/overtrue/laravel-favorite)
+- Subscribe: [overtrue/laravel-subscribe](https://github.com/overtrue/laravel-subscribe)
+- Vote: overtrue/laravel-vote (working in progress)
+- Bookmark: overtrue/laravel-bookmark (working in progress)
+
 
 ## Contributing
 

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the overtrue/laravel-favorite.
+ * This file is part of the overtrue/laravel-like.
  *
  * (c) overtrue <anzhengchao@gmail.com>
  *
@@ -11,14 +11,14 @@
 namespace Tests;
 
 use Illuminate\Database\Eloquent\Model;
-use Overtrue\LaravelFavorite\Traits\CanBeFavorited;
+use Overtrue\LaravelFavorite\Traits\Favoriteable;
 
 /**
  * Class Book.
  */
 class Book extends Model
 {
-    use CanBeFavorited;
+    use Favoriteable;
 
     protected $fillable = ['title'];
 }
