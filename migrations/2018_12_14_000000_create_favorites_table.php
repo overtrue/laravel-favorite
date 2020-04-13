@@ -20,7 +20,7 @@ class CreateFavoritesTable extends Migration
     public function up()
     {
         Schema::create(config('favorite.favorites_table'), function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->unsignedBigInteger(config('favorite.user_foreign_key'))->index()->comment('user_id');
             $table->morphs('favoriteable');
             $table->timestamps();
