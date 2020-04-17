@@ -22,7 +22,7 @@ trait Favoriter
 {
     public function favorite(Model $object)
     {
-        /* @var \Overtrue\LaravelFavorite\Traits\Favoriter $object */
+        /* @var \Overtrue\LaravelFavorite\Traits\Favoriteable $object */
         if (!$this->hasFavorited($object)) {
             $favorite = app(config('favorite.favorite_model'));
             $favorite->{config('favorite.user_foreign_key')} = $this->getKey();
@@ -33,7 +33,7 @@ trait Favoriter
 
     public function unfavorite(Model $object)
     {
-        /* @var \Overtrue\LaravelFavorite\Traits\Favoriter $object */
+        /* @var \Overtrue\LaravelFavorite\Traits\Favoriteable $object */
         $relation = $object->favorites()
             ->where('favoriteable_id', $object->getKey())
             ->where('favoriteable_type', $object->getMorphClass())
