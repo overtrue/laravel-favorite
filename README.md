@@ -1,6 +1,10 @@
-<h1 align="center"> Laravel Favorite </h1>
+Laravel Favorite
 
-<p align="center">❤️ User favorite feature for Laravel Application.</p>
+---
+
+❤️ User favorite feature for Laravel Application.
+
+![CI](https://github.com/overtrue/laravel-favorite/workflows/CI/badge.svg)
 
 
 ## Installing
