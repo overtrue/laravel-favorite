@@ -31,7 +31,7 @@ trait Favoriteable
                 return $this->favoriters->contains($user);
             }
 
-            return tap($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
+            return ($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
                     ->where(\config('favorite.user_foreign_key'), $user->getKey())->count() > 0;
         }
 

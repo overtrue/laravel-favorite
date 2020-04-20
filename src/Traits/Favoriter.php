@@ -55,7 +55,7 @@ trait Favoriter
      */
     public function hasFavorited(Model $object)
     {
-        return tap($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
+        return ($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
             ->where('favoriteable_id', $object->getKey())
             ->where('favoriteable_type', $object->getMorphClass())
             ->count() > 0;
