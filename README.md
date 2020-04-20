@@ -1,5 +1,4 @@
 Laravel Favorite
-
 ---
 
 ❤️ User favorite feature for Laravel Application.
