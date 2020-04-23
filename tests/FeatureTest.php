@@ -13,6 +13,7 @@ namespace Tests;
 use Illuminate\Support\Facades\Event;
 use Overtrue\LaravelFavorite\Events\Favorited;
 use Overtrue\LaravelFavorite\Events\Unfavorited;
+use Overtrue\LaravelFavorite\Favorite;
 
 /**
  * Class FeatureTest.
@@ -143,6 +144,41 @@ class FeatureTest extends TestCase
             $user->hasFavorited($post1);
         });
         $this->assertEmpty($sqls->all());
+    }
+
+    public function test_eager_loading_error()
+    {
+        // hasFavorited
+        $post1 = Post::create(['title' => 'post1']);
+        $post2 = Post::create(['title' => 'post2']);
+
+        $user = User::create(['name' => 'user']);
+
+        $user->favorite($post2);
+
+        $this->assertFalse($user->hasFavorited($post1));
+        $this->assertTrue($user->hasFavorited($post2));
+
+        $user->load('favorites');
+
+        $this->assertFalse($user->hasFavorited($post1));
+        $this->assertTrue($user->hasFavorited($post2));
+
+        // isFavoritedBy
+        $user1 = User::create(['name' => 'user1']);
+        $user2 = User::create(['name' => 'user2']);
+
+        $post = Post::create(['title' => 'Hello world!']);
+
+        $user2->favorite($post);
+
+        $this->assertFalse($post->isFavoritedBy($user1));
+        $this->assertTrue($post->isFavoritedBy($user2));
+
+        $post->load('favorites');
+
+        $this->assertFalse($post->isFavoritedBy($user1));
+        $this->assertTrue($post->isFavoritedBy($user2));
     }
 
     protected function getQueryLog(\Closure $callback): \Illuminate\Support\Collection
