@@ -68,4 +68,17 @@ trait Favoriter
     {
         return $this->hasMany(config('favorite.favorite_model'), config('favorite.user_foreign_key'), $this->getKeyName());
     }
+
+    /**
+     * Get Query Builder for favorites
+     * 
+     * @return Illuminate\Database\Eloquent\Builder
+     */
+    public function getFavoriteItems(string $model)
+    {
+        return app($model)->whereHas(
+            'favoriters',
+            fn ($q) => $q->where(config('favorite.user_foreign_key'), $this->getKey())
+        );
+    }
 }
