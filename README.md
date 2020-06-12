@@ -73,6 +73,7 @@ $post = Post::find(2);
 $user->favorite($post);
 $user->unfavorite($post);
 $user->toggleFavorite($post);
+$user->getFavoriteItems(Post::class)
 
 $user->hasFavorited($post); 
 $post->isFavoritedBy($user); 
@@ -84,7 +85,18 @@ $post->isFavoritedBy($user);
 foreach($post->favoriters as $user) {
     // echo $user->name;
 }
-```
+
+#### Get Favorite Model from User.
+Used Favoriter Trait Model can easy to get Favoriteable Models to do what you want.
+*note: this method will return a `Illuminate\Database\Eloquent\Builder` *
+```php
+$user->getFavoriteItems(Post::class);
+
+// Do more
+$favortePosts = $user->getFavoriteItems(Post::class)->get();
+$favortePosts = $user->getFavoriteItems(Post::class)->paginate();
+$favortePosts = $user->getFavoriteItems(Post::class)->where('title', 'Laravel-Favorite')->get();
+``````
 
 ### Aggregations
 
@@ -108,6 +120,7 @@ foreach($users as $user) {
     echo $user->favorites_count;
 }
 ```
+
 
 ### N+1 issue
 
