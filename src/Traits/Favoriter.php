@@ -78,7 +78,7 @@ trait Favoriter
     {
         return app($model)->whereHas(
             config('favorite.favorites_table'),
-            fn ($q) => $q->where(config('favorite.user_foreign_key'), $this->getAttribute($this->primaryKey))
+            fn ($q) => $q->where(config('favorite.user_foreign_key'), $this->getKey())
         );
     }
 }
