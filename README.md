@@ -85,6 +85,7 @@ $post->isFavoritedBy($user);
 foreach($post->favoriters as $user) {
     // echo $user->name;
 }
+```
 
 #### Get Favorite Model from User.
 Used Favoriter Trait Model can easy to get Favoriteable Models to do what you want.
@@ -96,7 +97,7 @@ $user->getFavoriteItems(Post::class);
 $favortePosts = $user->getFavoriteItems(Post::class)->get();
 $favortePosts = $user->getFavoriteItems(Post::class)->paginate();
 $favortePosts = $user->getFavoriteItems(Post::class)->where('title', 'Laravel-Favorite')->get();
-``````
+```
 
 ### Aggregations
 
