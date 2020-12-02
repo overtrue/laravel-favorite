@@ -42,7 +42,6 @@ class Favorite extends Model
 
             if (\config('favorite.uuids')) {
                 $favorite->{$favorite->getKeyName()} = $favorite->{$favorite->getKeyName()} ?: (string) Str::orderedUuid();
-                $this->setKeyType('string');
             }
         });
     }
