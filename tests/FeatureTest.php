@@ -1,13 +1,5 @@
 <?php
 
-/*
- * This file is part of the overtrue/laravel-like.
- *
- * (c) overtrue <anzhengchao@gmail.com>
- *
- * This source file is subject to the MIT license that is bundled.
- */
-
 namespace Tests;
 
 use Illuminate\Support\Facades\Event;
@@ -15,9 +7,6 @@ use Overtrue\LaravelFavorite\Events\Favorited;
 use Overtrue\LaravelFavorite\Events\Unfavorited;
 use Overtrue\LaravelFavorite\Favorite;
 
-/**
- * Class FeatureTest.
- */
 class FeatureTest extends TestCase
 {
     public function setUp(): void

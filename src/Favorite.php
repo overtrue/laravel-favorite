@@ -1,30 +1,22 @@
 <?php
 
-/*
- * This file is part of the overtrue/laravel-favorite
- *
- * (c) overtrue <i@overtrue.me>
- *
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
- */
-
 namespace Overtrue\LaravelFavorite;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 use Overtrue\LaravelFavorite\Events\Favorited;
 use Overtrue\LaravelFavorite\Events\Unfavorited;
 
 /**
- * Class Favorite.
- *
  * @property \Illuminate\Database\Eloquent\Model $user
  * @property \Illuminate\Database\Eloquent\Model $favoriter
  * @property \Illuminate\Database\Eloquent\Model $favoriteable
  */
 class Favorite extends Model
 {
+    protected $guarded = [];
+
     /**
      * @var string[]
      */
@@ -47,6 +39,11 @@ class Favorite extends Model
         self::saving(function ($favorite) {
             $userForeignKey = \config('favorite.user_foreign_key');
             $favorite->{$userForeignKey} = $favorite->{$userForeignKey} ?: auth()->id();
+
+            if (\config('favorite.uuids')) {
+                $favorite->{$favorite->getKeyName()} = $favorite->{$favorite->getKeyName()} ?: (string) Str::orderedUuid();
+                $this->setKeyType('string');
+            }
         });
     }
 
@@ -75,6 +72,9 @@ class Favorite extends Model
     }
 
     /**
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $type
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeWithType(Builder $query, string $type)
