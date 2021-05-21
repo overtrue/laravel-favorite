@@ -1,8 +1,8 @@
 <?php
 
-return PhpCsFixer\Config::create()
+return (new PhpCsFixer\Config())
     ->setRules([
-        '@PSR2' => true,
+        '@PSR12' => true,
         'binary_operator_spaces' => true,
         'blank_line_after_opening_tag' => true,
         'compact_nullable_typehint' => true,

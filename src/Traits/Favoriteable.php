@@ -11,9 +11,14 @@ use Illuminate\Database\Eloquent\Model;
 trait Favoriteable
 {
     /**
-     * @return bool
+     * @deprecated renamed to `hasBeenFavoritedBy`, will be removed at 5.0
      */
     public function isFavoritedBy(Model $user)
+    {
+        return $this->hasBeenFavoritedBy($user);
+    }
+
+    public function hasBeenFavoritedBy(Model $user): bool
     {
         if (\is_a($user, config('auth.providers.users.model'))) {
             if ($this->relationLoaded('favoriters')) {
@@ -27,20 +32,12 @@ trait Favoriteable
         return false;
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
-    public function favorites()
+    public function favorites(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany(config('favorite.favorite_model'), 'favoriteable');
     }
 
-    /**
-     * Return followers.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function favoriters()
+    public function favoriters(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(
             config('auth.providers.users.model'),

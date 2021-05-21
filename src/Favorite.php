@@ -17,9 +17,6 @@ class Favorite extends Model
 {
     protected $guarded = [];
 
-    /**
-     * @var string[]
-     */
     protected $dispatchesEvents = [
         'created' => Favorited::class,
         'deleted' => Unfavorited::class,
@@ -46,37 +43,22 @@ class Favorite extends Model
         });
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
-    public function favoriteable()
+    public function favoriteable(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\config('auth.providers.users.model'), \config('favorite.user_foreign_key'));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function favoriter()
+    public function favoriter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->user();
     }
 
-    /**
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $type
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeWithType(Builder $query, string $type)
+    public function scopeWithType(Builder $query, string $type): Builder
     {
         return $query->where('favoriteable_type', app($type)->getMorphClass());
     }

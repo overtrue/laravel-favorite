@@ -6,27 +6,17 @@ use Illuminate\Support\ServiceProvider;
 
 class FavoriteServiceProvider extends ServiceProvider
 {
-    /**
-     * Perform post-registration booting of services.
-     */
     public function boot()
     {
         $this->publishes([
             \dirname(__DIR__) . '/config/favorite.php' => config_path('favorite.php'),
-        ], 'config');
+        ], 'favorite-config');
 
         $this->publishes([
             \dirname(__DIR__) . '/migrations/' => database_path('migrations'),
-        ], 'migrations');
-
-        if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(\dirname(__DIR__) . '/migrations/');
-        }
+        ], 'favorite-migrations');
     }
 
-    /**
-     * Register bindings in the container.
-     */
     public function register()
     {
         $this->mergeConfigFrom(

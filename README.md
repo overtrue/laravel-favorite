@@ -76,7 +76,7 @@ $user->toggleFavorite($post);
 $user->getFavoriteItems(Post::class)
 
 $user->hasFavorited($post); 
-$post->isFavoritedBy($user); 
+$post->hasBeenFavoritedBy($user); 
 ```
 
 #### Get object favoriters:
@@ -120,6 +120,77 @@ $users = User::withCount('favorites')->get();
 foreach($users as $user) {
     echo $user->favorites_count;
 }
+
+
+// for Favoriteable models: 
+$posts = Post::withCount('favoriters')->get();
+
+foreach($posts as $post) {
+    echo $post->favorites_count;
+}
+```
+
+### Attach user favorite status to favoriteable collection
+
+You can use `Favoriter::attachFavoriteStatus(Collection $votables)` to attach the user favorite status, it will set `has_favorited` attribute to each model of `$favoriteables`:
+
+#### For model
+```php
+$post = Post::find(1);
+
+$post = $user->attachFavoriteStatus($post);
+
+// result
+[
+    "id" => 1
+    "title" => "Add socialite login support."
+    "created_at" => "2021-05-20T03:26:16.000000Z"
+    "updated_at" => "2021-05-20T03:26:16.000000Z"
+    "has_favorited" => true
+ ],
+```
+
+#### For `Collection | Paginator | LengthAwarePaginator | array`:
+
+```php
+$posts = Post::oldest('id')->get();
+
+$posts = $user->attachFavoriteStatus($posts);
+
+$posts = $posts->toArray();
+
+// result
+[
+  [
+    "id" => 1
+    "title" => "Post title1"
+    "created_at" => "2021-05-20T03:26:16.000000Z"
+    "updated_at" => "2021-05-20T03:26:16.000000Z"
+    "has_favorited" => true
+  ],
+  [
+    "id" => 2
+    "title" => "Post title2"
+    "created_at" => "2021-05-20T03:26:16.000000Z"
+    "updated_at" => "2021-05-20T03:26:16.000000Z"
+    "has_favorited" => fasle
+  ],
+  [
+    "id" => 3
+    "title" => "Post title3"
+    "created_at" => "2021-05-20T03:26:16.000000Z"
+    "updated_at" => "2021-05-20T03:26:16.000000Z"
+    "has_favorited" => true
+  ],
+]
+```
+
+#### For pagination
+
+```php
+$posts = Post::paginate(20);
+
+$user->attachFavoriteStatus($posts);
 ```
 
 
@@ -129,16 +200,16 @@ To avoid the N+1 issue, you can use eager loading to reduce this operation to ju
 
 ```php
 // Favoriter
-$users = App\User::with('favorites')->get();
+$users = User::with('favorites')->get();
 
 foreach($users as $user) {
     $user->hasFavorited($post);
 }
 
 // Favoriteable
-$posts = App\Post::with('favorites')->get();
+$posts = Post::with('favorites')->get();
 // or 
-$posts = App\Post::with('favoriters')->get();
+$posts = Post::with('favoriters')->get();
 
 foreach($posts as $post) {
     $post->isFavoritedBy($user);

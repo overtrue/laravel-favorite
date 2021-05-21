@@ -6,14 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    public $favorite;
+    public Model $favorite;
 
-    /**
-     * Event constructor.
-     */
     public function __construct(Model $favorite)
     {
         $this->favorite = $favorite;

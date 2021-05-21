@@ -170,6 +170,38 @@ class FeatureTest extends TestCase
         $this->assertTrue($post->isFavoritedBy($user2));
     }
 
+    public function test_favoriter_can_attach_favorite_status_to_votable_collection()
+    {
+        /* @var \Tests\Post $post1 */
+        $post1 = Post::create(['title' => 'Post title1']);
+        /* @var \Tests\Post $post2 */
+        $post2 = Post::create(['title' => 'Post title2']);
+        /* @var \Tests\Post $post3 */
+        $post3 = Post::create(['title' => 'Post title3']);
+
+        /* @var \Tests\User $user */
+        $user = User::create(['name' => 'overtrue']);
+
+        $user->favorite($post1);
+        $user->favorite($post2);
+
+        $posts = Post::oldest('id')->get();
+
+        $user->attachFavoriteStatus($posts);
+
+        $posts = $posts->toArray();
+
+        // user has up favorited post1
+        $this->assertTrue($posts[0]['has_favorited']);
+
+        // user has down favorited post2
+        $this->assertTrue($posts[1]['has_favorited']);
+
+        // user hasn't favorited post3
+        $this->assertFalse($posts[2]['has_favorited']);
+    }
+
+
     protected function getQueryLog(\Closure $callback): \Illuminate\Support\Collection
     {
         $sqls = \collect([]);
