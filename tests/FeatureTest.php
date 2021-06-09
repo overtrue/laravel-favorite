@@ -199,6 +199,20 @@ class FeatureTest extends TestCase
 
         // user hasn't favorited post3
         $this->assertFalse($posts[2]['has_favorited']);
+
+        // custom resolver
+        $posts = [['post' => $post1], ['post' => $post2], ['post' => $post3]];
+
+        $posts = $user->attachFavoriteStatus($posts, fn ($i) => $i['post']);
+
+        // user has up favorited post1
+        $this->assertTrue($posts[0]['post']['has_favorited']);
+
+        // user has down favorited post2
+        $this->assertTrue($posts[1]['post']['has_favorited']);
+
+        // user hasn't favorited post3
+        $this->assertFalse($posts[2]['post']['has_favorited']);
     }
 
 

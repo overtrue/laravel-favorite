@@ -55,9 +55,10 @@ trait Favoriter
         return $this->hasMany(config('favorite.favorite_model'), config('favorite.user_foreign_key'), $this->getKeyName());
     }
 
-    public function attachFavoriteStatus($favoriteables)
+    public function attachFavoriteStatus($favoriteables, callable $resolver = null)
     {
         $returnFirst = false;
+        $toArray = false;
 
         switch (true) {
             case $favoriteables instanceof Model:
@@ -72,6 +73,7 @@ trait Favoriter
                 break;
             case \is_array($favoriteables):
                 $favoriteables = \collect($favoriteables);
+                $toArray = true;
                 break;
         }
 
@@ -81,14 +83,17 @@ trait Favoriter
             return \sprintf('%s-%s', $item->favoriteable_type, $item->favoriteable_id);
         });
 
-        $favoriteables->map(function (Model $favoriteable) use ($favorited) {
-            if (\in_array(Favoriteable::class, \class_uses($favoriteable))) {
+        $favoriteables->map(function ($favoriteable) use ($favorited, $resolver) {
+            $resolver = $resolver ?? fn ($m) => $m;
+            $favoriteable = $resolver($favoriteable);
+
+            if ($favoriteable && \in_array(Favoriteable::class, \class_uses($favoriteable))) {
                 $key = \sprintf('%s-%s', $favoriteable->getMorphClass(), $favoriteable->getKey());
                 $favoriteable->setAttribute('has_favorited', $favorited->has($key));
             }
         });
 
-        return $returnFirst ? $favoriteables->first() : $favoriteables;
+        return $returnFirst ? $favoriteables->first() : ($toArray ? $favoriteables->all() : $favoriteables);
     }
 
     /**
