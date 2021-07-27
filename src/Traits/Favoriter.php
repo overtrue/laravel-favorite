@@ -87,7 +87,7 @@ trait Favoriter
             $resolver = $resolver ?? fn ($m) => $m;
             $favoriteable = $resolver($favoriteable);
 
-            if ($favoriteable && \in_array(Favoriteable::class, \class_uses($favoriteable))) {
+            if ($favoriteable && \in_array(Favoriteable::class, \class_uses_recursive($favoriteable))) {
                 $key = \sprintf('%s-%s', $favoriteable->getMorphClass(), $favoriteable->getKey());
                 $favoriteable->setAttribute('has_favorited', $favorited->has($key));
             }
