@@ -15,6 +15,10 @@ class FavoriteServiceProvider extends ServiceProvider
         $this->publishes([
             \dirname(__DIR__) . '/migrations/' => database_path('migrations'),
         ], 'favorite-migrations');
+        
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(\dirname(__DIR__) . '/migrations/');
+        }
     }
 
     public function register()
