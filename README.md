@@ -9,6 +9,8 @@ Laravel Favorite
 [![Total Downloads](https://poser.pugx.org/overtrue/laravel-favorite/downloads)](https://packagist.org/packages/overtrue/laravel-favorite)
 [![License](https://poser.pugx.org/overtrue/laravel-favorite/license)](https://packagist.org/packages/overtrue/laravel-favorite)
 
+[![Sponsor me](https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me-button-s.svg)](https://github.com/sponsors/overtrue)
+
 ## Installing
 
 ```shell
