@@ -251,7 +251,7 @@ _The code contribution process is not very formal. You just need to make sure th
 
 ## :heart: Sponsor me 
 
-<a href="https://github.com/sponsors/overtrue" target="_blank"><img src="https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me.svg" alt="Sponsor me"></a>
+[![Sponsor me](https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me.svg)](https://github.com/sponsors/overtrue)
 
 如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
 
