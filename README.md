@@ -137,7 +137,7 @@ foreach($posts as $post) {
 
 ### Attach user favorite status to favoriteable collection
 
-You can use `Favoriter::attachFavoriteStatus(Collection $favoriteables)` to attach the user favorite status, it will set `has_favorited` attribute to each model of `$favoriteables`:
+You can use `Favoriter::attachFavoriteStatus($favoriteables)` to attach the user favorite status, it will set `has_favorited` attribute to each model of `$favoriteables`:
 
 #### For model
 ```php
