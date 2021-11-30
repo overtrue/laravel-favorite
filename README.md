@@ -9,7 +9,7 @@ Laravel Favorite
 [![Total Downloads](https://poser.pugx.org/overtrue/laravel-favorite/downloads)](https://packagist.org/packages/overtrue/laravel-favorite)
 [![License](https://poser.pugx.org/overtrue/laravel-favorite/license)](https://packagist.org/packages/overtrue/laravel-favorite)
 
-[![Sponsor me](https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me-button-s.svg)](https://github.com/sponsors/overtrue)
+[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me-button-s.svg?raw=true)](https://github.com/sponsors/overtrue)
 
 ## Installing
 
@@ -251,7 +251,7 @@ _The code contribution process is not very formal. You just need to make sure th
 
 ## :heart: Sponsor me 
 
-[![Sponsor me](https://raw.githubusercontent.com/overtrue/overtrue/master/sponsor-me.svg)](https://github.com/sponsors/overtrue)
+[![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
 
 如果你喜欢我的项目并想支持它，[点击这里 :heart:](https://github.com/sponsors/overtrue)
 
