@@ -2,6 +2,7 @@
 
 namespace Overtrue\LaravelFavorite\Traits;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +13,7 @@ use Illuminate\Support\Collection;
  */
 trait Favoriter
 {
-    public function favorite(Model $object)
+    public function favorite(Model $object): void
     {
         /* @var \Overtrue\LaravelFavorite\Traits\Favoriteable $object */
         if (!$this->hasFavorited($object)) {
@@ -23,7 +24,7 @@ trait Favoriter
         }
     }
 
-    public function unfavorite(Model $object)
+    public function unfavorite(Model $object): void
     {
         /* @var \Overtrue\LaravelFavorite\Traits\Favoriteable $object */
         $relation = $object->favorites()
@@ -37,7 +38,7 @@ trait Favoriter
         }
     }
 
-    public function toggleFavorite(Model $object)
+    public function toggleFavorite(Model $object): void
     {
         $this->hasFavorited($object) ? $this->unfavorite($object) : $this->favorite($object);
     }
@@ -96,12 +97,7 @@ trait Favoriter
         return $returnFirst ? $favoriteables->first() : ($toArray ? $favoriteables->all() : $favoriteables);
     }
 
-    /**
-     * Get Query Builder for favorites
-     *
-     * @return Illuminate\Database\Eloquent\Builder
-     */
-    public function getFavoriteItems(string $model)
+    public function getFavoriteItems(string $model): Builder
     {
         return app($model)->whereHas(
             'favoriters',

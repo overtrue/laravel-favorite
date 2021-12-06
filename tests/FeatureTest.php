@@ -18,7 +18,7 @@ class FeatureTest extends TestCase
         config(['auth.providers.users.model' => User::class]);
     }
 
-    public function testBasicFeatures()
+    public function test_basic_features()
     {
         $user = User::create(['name' => 'overtrue']);
         $post = Post::create(['title' => 'Hello world!']);
@@ -213,6 +213,26 @@ class FeatureTest extends TestCase
 
         // user hasn't favorited post3
         $this->assertFalse($posts[2]['post']['has_favorited']);
+    }
+
+    public function test_has_favorited()
+    {
+        $user = User::create(['name' => 'overtrue']);
+        $post = Post::create(['title' => 'Hello world!']);
+
+        $user->favorite($post);
+        $user->favorite($post);
+        $user->favorite($post);
+        $user->favorite($post);
+
+        $this->assertTrue($user->hasFavorited($post));
+        $this->assertTrue($post->hasBeenFavoritedBy($user));
+        $this->assertDatabaseCount('favorites', 1);
+
+        $user->unfavorite($post);
+        $this->assertFalse($user->hasFavorited($post));
+        $this->assertFalse($post->hasBeenFavoritedBy($user));
+        $this->assertDatabaseCount('favorites', 0);
     }
 
 
