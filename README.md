@@ -22,7 +22,7 @@ $ composer require overtrue/laravel-favorite -vvv
 This step is optional
 
 ```php
-$ php artisan vendor:publish --provider="Overtrue\\LaravelFavorite\\FavoriteServiceProvider" --tag=config
+$ php artisan vendor:publish --provider="Overtrue\\LaravelFavorite\\FavoriteServiceProvider" --tag=favorite-config
 ```
 
 ### Migrations
@@ -30,7 +30,7 @@ $ php artisan vendor:publish --provider="Overtrue\\LaravelFavorite\\FavoriteServ
 This step is also optional, if you want to custom favorites table, you can publish the migration files:
 
 ```php
-$ php artisan vendor:publish --provider="Overtrue\\LaravelFavorite\\FavoriteServiceProvider" --tag=migrations
+$ php artisan vendor:publish --provider="Overtrue\\LaravelFavorite\\FavoriteServiceProvider" --tag=favorite-migrations
 ```
 
 
