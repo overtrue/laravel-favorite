@@ -18,6 +18,11 @@ trait Favoriteable
         return $this->hasBeenFavoritedBy($user);
     }
 
+    public function hasFavoriter(Model $user): bool
+    {
+        return $this->hasBeenFavoritedBy($user);
+    }
+
     public function hasBeenFavoritedBy(Model $user): bool
     {
         if (\is_a($user, config('auth.providers.users.model'))) {
