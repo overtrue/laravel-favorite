@@ -3,7 +3,7 @@ Laravel Favorite
 
 ❤️ User favorite feature for Laravel Application.
 
-![CI](https://github.com/overtrue/laravel-favorite/workflows/CI/badge.svg)
+[![CI](https://github.com/overtrue/laravel-favorite/workflows/CI/badge.svg)](https://github.com/overtrue/laravel-favorite/actions)
 [![Latest Stable Version](https://poser.pugx.org/overtrue/laravel-favorite/v/stable.svg)](https://packagist.org/packages/overtrue/laravel-favorite)
 [![Latest Unstable Version](https://poser.pugx.org/overtrue/laravel-favorite/v/unstable.svg)](https://packagist.org/packages/overtrue/laravel-favorite)
 [![Total Downloads](https://poser.pugx.org/overtrue/laravel-favorite/downloads)](https://packagist.org/packages/overtrue/laravel-favorite)
