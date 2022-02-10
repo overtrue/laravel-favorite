@@ -19,5 +19,5 @@ return [
     /*
      * Model name for favorite record.
      */
-    'favorite_model' => 'Overtrue\LaravelFavorite\Favorite',
+    'favorite_model' => Overtrue\LaravelFavorite\Favorite::class,
 ];
