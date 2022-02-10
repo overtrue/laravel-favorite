@@ -1,5 +1,4 @@
-Laravel Favorite
----
+## Laravel Favorite
 
 ❤️ User favorite feature for Laravel Application.
 
@@ -33,7 +32,6 @@ This step is also optional, if you want to custom favorites table, you can publi
 $ php artisan vendor:publish --provider="Overtrue\\LaravelFavorite\\FavoriteServiceProvider" --tag=favorite-migrations
 ```
 
-
 ## Usage
 
 ### Traits
@@ -50,7 +48,7 @@ use Overtrue\LaravelFavorite\Traits\Favoriter;
 class User extends Authenticatable
 {
     use Favoriter;
-    
+
     <...>
 }
 ```
@@ -80,8 +78,8 @@ $user->unfavorite($post);
 $user->toggleFavorite($post);
 $user->getFavoriteItems(Post::class)
 
-$user->hasFavorited($post); 
-$post->hasBeenFavoritedBy($user); 
+$user->hasFavorited($post);
+$post->hasBeenFavoritedBy($user);
 ```
 
 #### Get object favoriters:
@@ -93,8 +91,10 @@ foreach($post->favoriters as $user) {
 ```
 
 #### Get Favorite Model from User.
+
 Used Favoriter Trait Model can easy to get Favoriteable Models to do what you want.
-*note: this method will return a `Illuminate\Database\Eloquent\Builder` *
+_note: this method will return a `Illuminate\Database\Eloquent\Builder` _
+
 ```php
 $user->getFavoriteItems(Post::class);
 
@@ -108,10 +108,10 @@ $favortePosts = $user->getFavoriteItems(Post::class)->where('title', 'Laravel-Fa
 
 ```php
 // all
-$user->favorites()->count(); 
+$user->favorites()->count();
 
 // with type
-$user->favorites()->withType(Post::class)->count(); 
+$user->favorites()->withType(Post::class)->count();
 
 // favoriters count
 $post->favoriters()->count();
@@ -127,7 +127,7 @@ foreach($users as $user) {
 }
 
 
-// for Favoriteable models: 
+// for Favoriteable models:
 $posts = Post::withCount('favoriters')->get();
 
 foreach($posts as $post) {
@@ -140,6 +140,7 @@ foreach($posts as $post) {
 You can use `Favoriter::attachFavoriteStatus($favoriteables)` to attach the user favorite status, it will set `has_favorited` attribute to each model of `$favoriteables`:
 
 #### For model
+
 ```php
 $post = Post::find(1);
 
@@ -198,7 +199,6 @@ $posts = Post::paginate(20);
 $user->attachFavoriteStatus($posts);
 ```
 
-
 ### N+1 issue
 
 To avoid the N+1 issue, you can use eager loading to reduce this operation to just 2 queries. When querying, you may specify which relationships should be eager loaded using the `with` method:
@@ -213,7 +213,7 @@ foreach($users as $user) {
 
 // Favoriteable
 $posts = Post::with('favorites')->get();
-// or 
+// or
 $posts = Post::with('favoriters')->get();
 
 foreach($posts as $post) {
@@ -221,23 +221,21 @@ foreach($posts as $post) {
 }
 ```
 
-
 ### Events
 
-| **Event** | **Description** |
-| --- | --- |
-|  `Overtrue\LaravelFavorite\Events\Favorited` | Triggered when the relationship is created. |
-|  `Overtrue\LaravelFavorite\Events\Unfavorited` | Triggered when the relationship is deleted. |
+| **Event**                                     | **Description**                             |
+| --------------------------------------------- | ------------------------------------------- |
+| `Overtrue\LaravelFavorite\Events\Favorited`   | Triggered when the relationship is created. |
+| `Overtrue\LaravelFavorite\Events\Unfavorited` | Triggered when the relationship is deleted. |
 
 ## Related packages
 
-- Follow: [overtrue/laravel-follow](https://github.com/overtrue/laravel-follow)
-- Like: [overtrue/laravel-like](https://github.com/overtrue/laravel-like)
-- Favorite: [overtrue/laravel-favorite](https://github.com/overtrue/laravel-favorite)
-- Subscribe: [overtrue/laravel-subscribe](https://github.com/overtrue/laravel-subscribe)
-- Vote: [overtrue/laravel-vote](https://github.com/overtrue/laravel-vote)
-- Bookmark: overtrue/laravel-bookmark (working in progress)
-
+-   Follow: [overtrue/laravel-follow](https://github.com/overtrue/laravel-follow)
+-   Like: [overtrue/laravel-like](https://github.com/overtrue/laravel-like)
+-   Favorite: [overtrue/laravel-favorite](https://github.com/overtrue/laravel-favorite)
+-   Subscribe: [overtrue/laravel-subscribe](https://github.com/overtrue/laravel-subscribe)
+-   Vote: [overtrue/laravel-vote](https://github.com/overtrue/laravel-vote)
+-   Bookmark: overtrue/laravel-bookmark (working in progress)
 
 ## Contributing
 
@@ -249,7 +247,7 @@ You can contribute in one of three ways:
 
 _The code contribution process is not very formal. You just need to make sure that you follow the PSR-0, PSR-1, and PSR-2 coding guidelines. Any new code contributions must be accompanied by unit tests where applicable._
 
-## :heart: Sponsor me 
+## :heart: Sponsor me
 
 [![Sponsor me](https://github.com/overtrue/overtrue/blob/master/sponsor-me.svg?raw=true)](https://github.com/sponsors/overtrue)
 
@@ -260,7 +258,6 @@ _The code contribution process is not very formal. You just need to make sure th
 Many thanks to Jetbrains for kindly providing a license for me to work on this and other open-source projects.
 
 [![](https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.svg)](https://www.jetbrains.com/?from=https://github.com/overtrue)
-
 
 ## PHP 扩展包开发
 
