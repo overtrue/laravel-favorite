@@ -169,7 +169,7 @@ $posts = $posts->toArray();
     "title" => "Post title2"
     "created_at" => "2021-05-20T03:26:16.000000Z"
     "updated_at" => "2021-05-20T03:26:16.000000Z"
-    "has_favorited" => fasle
+    "has_favorited" => false
   ],
   [
     "id" => 3
