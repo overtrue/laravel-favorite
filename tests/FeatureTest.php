@@ -185,19 +185,43 @@ class FeatureTest extends TestCase
         $user->favorite($post1);
         $user->favorite($post2);
 
+        // collection
         $posts = Post::oldest('id')->get();
-
         $user->attachFavoriteStatus($posts);
-
         $posts = $posts->toArray();
 
         // user has up favorited post1
         $this->assertTrue($posts[0]['has_favorited']);
-
         // user has down favorited post2
         $this->assertTrue($posts[1]['has_favorited']);
-
         // user hasn't favorited post3
+        $this->assertFalse($posts[2]['has_favorited']);
+
+        // paginator
+        $posts = Post::oldest('id')->paginate();
+        $user->attachFavoriteStatus($posts);
+        $posts = $posts->toArray()['data'];
+
+        $this->assertTrue($posts[0]['has_favorited']);
+        $this->assertTrue($posts[1]['has_favorited']);
+        $this->assertFalse($posts[2]['has_favorited']);
+
+        // cursor paginator
+        $posts = Post::oldest('id')->cursorPaginate();
+        $user->attachFavoriteStatus($posts);
+        $posts = $posts->toArray()['data'];
+
+        $this->assertTrue($posts[0]['has_favorited']);
+        $this->assertTrue($posts[1]['has_favorited']);
+        $this->assertFalse($posts[2]['has_favorited']);
+
+        // cursor lazy collection
+        $posts = Post::oldest('id')->cursor();
+        $posts = $user->attachFavoriteStatus($posts);
+        $posts = $posts->toArray();
+
+        $this->assertTrue($posts[0]['has_favorited']);
+        $this->assertTrue($posts[1]['has_favorited']);
         $this->assertFalse($posts[2]['has_favorited']);
 
         // custom resolver
@@ -207,10 +231,8 @@ class FeatureTest extends TestCase
 
         // user has up favorited post1
         $this->assertTrue($posts[0]['post']['has_favorited']);
-
         // user has down favorited post2
         $this->assertTrue($posts[1]['post']['has_favorited']);
-
         // user hasn't favorited post3
         $this->assertFalse($posts[2]['post']['has_favorited']);
     }
