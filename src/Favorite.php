@@ -34,9 +34,6 @@ class Favorite extends Model
         parent::boot();
 
         self::saving(function ($favorite) {
-            $userForeignKey = \config('favorite.user_foreign_key');
-            $favorite->{$userForeignKey} = $favorite->{$userForeignKey} ?: auth()->id();
-
             if (\config('favorite.uuids')) {
                 $favorite->{$favorite->getKeyName()} = $favorite->{$favorite->getKeyName()} ?: (string) Str::orderedUuid();
             }
@@ -48,14 +45,9 @@ class Favorite extends Model
         return $this->morphTo();
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function favoriter(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
-        return $this->belongsTo(\config('auth.providers.users.model'), \config('favorite.user_foreign_key'));
-    }
-
-    public function favoriter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->user();
+        return $this->morphTo();
     }
 
     public function scopeWithType(Builder $query, string $type): Builder

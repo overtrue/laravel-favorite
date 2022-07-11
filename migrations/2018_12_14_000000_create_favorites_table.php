@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create(config('favorite.favorites_table'), function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger(config('favorite.user_foreign_key'))->index()->comment('user_id');
+            $table->morphs('favoriter');
             $table->morphs('favoriteable');
             $table->timestamps();
         });

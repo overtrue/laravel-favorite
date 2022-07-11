@@ -16,24 +16,38 @@ use Illuminate\Support\LazyCollection;
  */
 trait Favoriter
 {
+    /**
+     * Favorite a model
+     *
+     * @param \Illuminate\Database\Eloquent\Model $object
+     * @return void
+     */
     public function favorite(Model $object): void
     {
         /* @var \Overtrue\LaravelFavorite\Traits\Favoriteable $object */
         if (!$this->hasFavorited($object)) {
             $favorite = app(config('favorite.favorite_model'));
-            $favorite->{config('favorite.user_foreign_key')} = $this->getKey();
+            $favorite->favoriter_id = $this->getKey();
+            $favorite->favoriter_type = $this->getMorphClass();
 
             $object->favorites()->save($favorite);
         }
     }
 
+    /**
+     * Unfavorite a model
+     *
+     * @param \Illuminate\Database\Eloquent\Model $object
+     * @return void
+     */
     public function unfavorite(Model $object): void
     {
         /* @var \Overtrue\LaravelFavorite\Traits\Favoriteable $object */
         $relation = $object->favorites()
             ->where('favoriteable_id', $object->getKey())
             ->where('favoriteable_type', $object->getMorphClass())
-            ->where(config('favorite.user_foreign_key'), $this->getKey())
+            ->where('favoriter_id', $this->getKey())
+            ->where('favoriter_type', $this->getMorphClass())
             ->first();
 
         if ($relation) {
@@ -41,11 +55,22 @@ trait Favoriter
         }
     }
 
+    /**
+     * Toggle a favourite (favor/unfavor)
+     * @param \Illuminate\Database\Eloquent\Model $object
+     * @return void
+     */
     public function toggleFavorite(Model $object): void
     {
         $this->hasFavorited($object) ? $this->unfavorite($object) : $this->favorite($object);
     }
 
+    /**
+     * Check if a model has favorite a model
+     *
+     * @param \Illuminate\Database\Eloquent\Model $object
+     * @return bool
+     */
     public function hasFavorited(Model $object): bool
     {
         return ($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
@@ -54,9 +79,14 @@ trait Favoriter
             ->count() > 0;
     }
 
-    public function favorites(): \Illuminate\Database\Eloquent\Relations\HasMany
+    /**
+     * Get all favorites for a model
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function favorites(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return $this->hasMany(config('favorite.favorite_model'), config('favorite.user_foreign_key'), $this->getKeyName());
+        return $this->morphMany(config('favorite.favorite_model'), 'favoriter');
     }
 
     public function attachFavoriteStatus($favoriteables, callable $resolver = null)
@@ -104,12 +134,20 @@ trait Favoriter
         return $returnFirst ? $favoriteables->first() : ($toArray ? $favoriteables->all() : $favoriteables);
     }
 
+    /**
+     * Get favourites for Model
+     *
+     * @param string $model
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function getFavoriteItems(string $model): Builder
     {
         return app($model)->whereHas(
             'favoriters',
             function ($q) {
-                return $q->where(config('favorite.user_foreign_key'), $this->getKey());
+                return $q
+                    ->where('favoriter_id', $this->getKey())
+                    ->where('favoriter_type', $this->getMorphClass());
             }
         );
     }

@@ -13,25 +13,28 @@ trait Favoriteable
     /**
      * @deprecated renamed to `hasBeenFavoritedBy`, will be removed at 5.0
      */
-    public function isFavoritedBy(Model $user)
+    public function isFavoritedBy(Model $model)
     {
-        return $this->hasBeenFavoritedBy($user);
+        return $this->hasBeenFavoritedBy($model);
     }
 
-    public function hasFavoriter(Model $user): bool
+    public function hasFavoriter(Model $model): bool
     {
-        return $this->hasBeenFavoritedBy($user);
+        return $this->hasBeenFavoritedBy($model);
     }
 
-    public function hasBeenFavoritedBy(Model $user): bool
+    public function hasBeenFavoritedBy(Model $model): bool
     {
-        if (\is_a($user, config('auth.providers.users.model'))) {
+        dd(config('auth.providers.users.model'));
+        if (\is_a($model, config('auth.providers.users.model'))) {
             if ($this->relationLoaded('favoriters')) {
-                return $this->favoriters->contains($user);
+                return $this->favoriters->contains($model);
             }
 
             return ($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
-                    ->where(\config('favorite.user_foreign_key'), $user->getKey())->count() > 0;
+                    ->where('favoriter_id', $model->getKey())
+                    ->where('favoriter_type', $model->getMorphClass())
+                    ->count() > 0;
         }
 
         return false;
@@ -44,12 +47,7 @@ trait Favoriteable
 
     public function favoriters(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(
-            config('auth.providers.users.model'),
-            config('favorite.favorites_table'),
-            'favoriteable_id',
-            config('favorite.user_foreign_key')
-        )
+        return $this->morphedByMany()
             ->where('favoriteable_type', $this->getMorphClass());
     }
 }

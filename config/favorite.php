@@ -7,11 +7,6 @@ return [
     'uuids' => false,
 
     /*
-     * User tables foreign key name.
-     */
-    'user_foreign_key' => 'user_id',
-
-    /*
      * Table name for favorites records.
      */
     'favorites_table' => 'favorites',
