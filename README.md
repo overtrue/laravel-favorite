@@ -150,7 +150,7 @@ $post = $user->attachFavoriteStatus($post);
  ],
 ```
 
-#### For `Collection | Paginator | LengthAwarePaginator | array`:
+#### For `Collection | Paginator | CursorPaginator | array`:
 
 ```php
 $posts = Post::oldest('id')->get();

@@ -2,10 +2,13 @@
 
 namespace Overtrue\LaravelFavorite\Traits;
 
+use Illuminate\Pagination\AbstractCursorPaginator;
+use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 
 /**
  * @property \Illuminate\Database\Eloquent\Collection $favorites
@@ -55,47 +58,41 @@ trait Favoriter
         return $this->hasMany(config('favorite.favorite_model'), config('favorite.user_foreign_key'), $this->getKeyName());
     }
 
-    public function attachFavoriteStatus($favoriteables)
+    public function attachFavoriteStatus(&$favoriteables)
     {
-        $returnFirst = false;
-
-        switch (true) {
-            case $favoriteables instanceof Model:
-                $returnFirst = true;
-                $favoriteables = \collect([$favoriteables]);
-                break;
-            case $favoriteables instanceof LengthAwarePaginator:
-                $favoriteables = $favoriteables->getCollection();
-                break;
-            case $favoriteables instanceof Paginator:
-                $favoriteables = \collect($favoriteables->items());
-                break;
-            case \is_array($favoriteables):
-                $favoriteables = \collect($favoriteables);
-                break;
-        }
-
-        \abort_if(!($favoriteables instanceof Collection), 422, 'Invalid $favoriteables type.');
-
-        $favorited = $this->favorites()->get()->keyBy(function ($item) {
+        $favorites = $this->favorites()->get()->keyBy(function ($item) {
             return \sprintf('%s-%s', $item->favoriteable_type, $item->favoriteable_id);
         });
 
-        $favoriteables->map(function (Model $favoriteable) use ($favorited) {
+        $attachStatus = function ($favoriteable) use ($favorites) {
             if (\in_array(Favoriteable::class, \class_uses($favoriteable))) {
                 $key = \sprintf('%s-%s', $favoriteable->getMorphClass(), $favoriteable->getKey());
-                $favoriteable->setAttribute('has_favorited', $favorited->has($key));
+                $favoriteable->setAttribute('has_favorited', $favorites->has($key));
             }
-        });
 
-        return $returnFirst ? $favoriteables->first() : $favoriteables;
+            return $favoriteable;
+        };
+
+        switch (true) {
+            case $favoriteables instanceof Model:
+                return $attachStatus($favoriteables);
+            case $favoriteables instanceof Collection:
+                return $favoriteables->each($attachStatus);
+            case $favoriteables instanceof LazyCollection:
+                return $favoriteables = $favoriteables->map($attachStatus);
+            case $favoriteables instanceof AbstractPaginator:
+            case $favoriteables instanceof AbstractCursorPaginator:
+                return $favoriteables->through($attachStatus);
+            case $favoriteables instanceof Paginator:
+                // custom paginator will return a collection
+                return collect($favoriteables->items())->transform($attachStatus);
+            case \is_array($favoriteables):
+                return \collect($favoriteables)->transform($attachStatus);
+            default:
+                throw new \InvalidArgumentException('Invalid argument type.');
+        }
     }
 
-    /**
-     * Get Query Builder for favorites
-     *
-     * @return Illuminate\Database\Eloquent\Builder
-     */
     public function getFavoriteItems(string $model)
     {
         return app($model)->whereHas(

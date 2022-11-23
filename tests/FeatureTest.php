@@ -185,19 +185,51 @@ class FeatureTest extends TestCase
         $user->favorite($post1);
         $user->favorite($post2);
 
+        // Model
+        $post1->refresh();
+        $this->assertNull($post1['has_favorited']);
+
+        $user->attachFavoriteStatus($post1);
+        $this->assertTrue($post1['has_favorited']);
+
+        // Collection
         $posts = Post::oldest('id')->get();
-
-        $user->attachFavoriteStatus($posts);
-
-        $posts = $posts->toArray();
-
-        // user has up favorited post1
+        $this->assertSame($posts, $user->attachFavoriteStatus($posts));
         $this->assertTrue($posts[0]['has_favorited']);
-
-        // user has down favorited post2
         $this->assertTrue($posts[1]['has_favorited']);
+        $this->assertFalse($posts[2]['has_favorited']);
 
-        // user hasn't favorited post3
+        // LazyCollection
+        $posts = Post::oldest('id')->cursor();
+        $user->attachFavoriteStatus($posts);
+        $posts = $posts->toArray();
+        $this->assertTrue($posts[0]['has_favorited']);
+        $this->assertTrue($posts[1]['has_favorited']);
+        $this->assertFalse($posts[2]['has_favorited']);
+
+        // Paginator
+        $posts = Post::oldest('id')->paginate(20);
+        $postsWithFavoriteStatus = $user->attachFavoriteStatus($posts);
+        $this->assertSame($posts, $postsWithFavoriteStatus);
+        $this->assertTrue($posts[0]['has_favorited']);
+        $this->assertTrue($posts[1]['has_favorited']);
+        $this->assertFalse($posts[2]['has_favorited']);
+
+        // https://github.com/overtrue/laravel-favorite/issues/33
+        $this->assertTrue(method_exists($postsWithFavoriteStatus, 'links'));
+
+        // cursor paginator
+        $posts = Post::oldest('id')->cursorPaginate(20);
+        $this->assertSame($posts, $user->attachFavoriteStatus($posts));
+        $this->assertTrue($posts[0]['has_favorited']);
+        $this->assertTrue($posts[1]['has_favorited']);
+        $this->assertFalse($posts[2]['has_favorited']);
+
+        // array
+        $posts = Post::oldest('id')->get()->all();
+        $posts = $user->attachFavoriteStatus($posts);
+        $this->assertTrue($posts[0]['has_favorited']);
+        $this->assertTrue($posts[1]['has_favorited']);
         $this->assertFalse($posts[2]['has_favorited']);
     }
 
