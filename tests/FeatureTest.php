@@ -135,6 +135,28 @@ class FeatureTest extends TestCase
         $this->assertEmpty($sqls->all());
     }
 
+    public function test_eager_loading_from_favorite_model()
+    {
+        $user = User::create(['name' => 'overtrue']);
+
+        $post1 = Post::create(['title' => 'Hello world!']);
+        $post2 = Post::create(['title' => 'Hello everyone!']);
+        $book1 = Book::create(['title' => 'Learn laravel.']);
+        $book2 = Book::create(['title' => 'Learn symfony.']);
+
+        $user->favorite($post1);
+        $user->favorite($post2);
+        $user->favorite($book1);
+        $user->favorite($book2);
+
+        // start recording
+        $sqls = $this->getQueryLog(function () use ($user) {
+            Favorite::with('favoriteable')->where('user_id', $user->id)->get();
+        });
+
+        $this->assertSame(3, $sqls->count()); // from "favorites", "posts", "books"
+    }
+
     public function test_eager_loading_error()
     {
         // hasFavorited

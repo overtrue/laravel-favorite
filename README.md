@@ -201,6 +201,13 @@ foreach($users as $user) {
     $user->hasFavorited($post);
 }
 
+// with favoriteable object
+$users = User::with('favorites.favoriteable')->get();
+
+foreach($users as $user) {
+    $user->hasFavorited($post);
+}
+
 // Favoriteable
 $posts = Post::with('favorites')->get();
 // or
