@@ -89,9 +89,9 @@ _note: this method will return a `Illuminate\Database\Eloquent\Builder` _
 $user->getFavoriteItems(Post::class);
 
 // Do more
-$favortePosts = $user->getFavoriteItems(Post::class)->get();
-$favortePosts = $user->getFavoriteItems(Post::class)->paginate();
-$favortePosts = $user->getFavoriteItems(Post::class)->where('title', 'Laravel-Favorite')->get();
+$favoritePosts = $user->getFavoriteItems(Post::class)->get();
+$favoritePosts = $user->getFavoriteItems(Post::class)->paginate();
+$favoritePosts = $user->getFavoriteItems(Post::class)->where('title', 'Laravel-Favorite')->get();
 ```
 
 ### Aggregations
