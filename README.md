@@ -19,7 +19,7 @@ composer require overtrue/laravel-favorite -vvv
 ### Configuration & Migrations
 
 ```php
-php artisan vendor:publish
+php artisan vendor:publish --provider="Overtrue\LaravelFavorite\FavoriteServiceProvider"
 ```
 
 ## Usage
