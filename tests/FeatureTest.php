@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Overtrue\LaravelFavorite\Tests;
 
 use Illuminate\Support\Facades\Event;
 use Overtrue\LaravelFavorite\Events\Favorited;

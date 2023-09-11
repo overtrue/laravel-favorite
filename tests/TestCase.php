@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Overtrue\LaravelFavorite\Tests;
 
 use Overtrue\LaravelFavorite\FavoriteServiceProvider;
 
