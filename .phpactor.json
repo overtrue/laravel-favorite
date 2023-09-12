@@ -1,4 +1,0 @@
-{
-    "$schema": "/home/salar/.local/share/nvim/mason/packages/phpactor/phpactor.schema.json",
-    "language_server_php_cs_fixer.enabled": true
-}
