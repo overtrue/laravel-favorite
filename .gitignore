@@ -10,3 +10,5 @@ composer.lock
 .php-cs-fixer.cache
 cghooks.lock
 .phpunit.cache/
+phpunit.xml.dist.bak
+.phpactor.json

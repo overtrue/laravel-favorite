@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Overtrue\LaravelFavorite\Tests;
 
 use Illuminate\Database\Eloquent\Model;
 use Overtrue\LaravelFavorite\Traits\Favoriter;

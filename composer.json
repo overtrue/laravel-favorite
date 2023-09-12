@@ -19,7 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Overtrue\\LaravelFavorite\\Tests\\": "tests"
         }
     },
     "require-dev": {
