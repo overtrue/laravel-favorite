@@ -25,16 +25,16 @@ trait Favoriteable
 
     public function hasBeenFavoritedBy(Model $user): bool
     {
-        if (\is_a($user, config('auth.providers.users.model'))) {
-            if ($this->relationLoaded('favoriters')) {
-                return $this->favoriters->contains($user);
-            }
-
-            return ($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
-                    ->where(\config('favorite.user_foreign_key'), $user->getKey())->count() > 0;
+        if (! \is_a($user, config('auth.providers.users.model'))) {
+            return false;
         }
 
-        return false;
+        if ($this->relationLoaded('favoriters')) {
+            return $this->favoriters->contains($user);
+        }
+
+        return ($this->relationLoaded('favorites') ? $this->favorites : $this->favorites())
+            ->where(\config('favorite.user_foreign_key'), $user->getKey())->count() > 0;
     }
 
     public function favorites(): \Illuminate\Database\Eloquent\Relations\MorphMany
