@@ -13,7 +13,7 @@ trait Favoriteable
     /**
      * @deprecated renamed to `hasBeenFavoritedBy`, will be removed at 5.0
      */
-    public function isFavoritedBy(Model $user)
+    public function isFavoritedBy(Model $user): bool
     {
         return $this->hasBeenFavoritedBy($user);
     }
