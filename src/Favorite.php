@@ -2,64 +2,24 @@
 
 namespace Overtrue\LaravelFavorite;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
-use Overtrue\LaravelFavorite\Events\Favorited;
-use Overtrue\LaravelFavorite\Events\Unfavorited;
-
-/**
- * @property \Illuminate\Database\Eloquent\Model $user
- * @property \Illuminate\Database\Eloquent\Model $favoriter
- * @property \Illuminate\Database\Eloquent\Model $favoriteable
- */
-class Favorite extends Model
+class Favorite
 {
-    protected $guarded = [];
+    public static $runsMigrations = true;
 
-    protected $dispatchesEvents = [
-        'created' => Favorited::class,
-        'deleted' => Unfavorited::class,
-    ];
-
-    public function __construct(array $attributes = [])
+    public static function shouldRunMigrations()
     {
-        $this->table = \config('favorite.favorites_table');
-
-        parent::__construct($attributes);
+        return static::$runsMigrations;
     }
 
-    protected static function boot()
+    /**
+     * Configure Sanctum to not register its migrations.
+     *
+     * @return static
+     */
+    public static function ignoreMigrations()
     {
-        parent::boot();
+        static::$runsMigrations = false;
 
-        self::saving(function ($favorite) {
-            $userForeignKey = \config('favorite.user_foreign_key');
-            $favorite->{$userForeignKey} = $favorite->{$userForeignKey} ?: auth()->id();
-
-            if (\config('favorite.uuids')) {
-                $favorite->{$favorite->getKeyName()} = $favorite->{$favorite->getKeyName()} ?: (string) Str::orderedUuid();
-            }
-        });
-    }
-
-    public function favoriteable(): \Illuminate\Database\Eloquent\Relations\MorphTo
-    {
-        return $this->morphTo();
-    }
-
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(\config('auth.providers.users.model'), \config('favorite.user_foreign_key'));
-    }
-
-    public function favoriter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->user();
-    }
-
-    public function scopeWithType(Builder $query, string $type): Builder
-    {
-        return $query->where('favoriteable_type', app($type)->getMorphClass());
+        return new static;
     }
 }
