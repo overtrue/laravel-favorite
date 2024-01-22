@@ -6,7 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 class FavoriteServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(): void
     {
         $this->publishes([
             \dirname(__DIR__).'/config/favorite.php' => config_path('favorite.php'),
@@ -15,13 +15,9 @@ class FavoriteServiceProvider extends ServiceProvider
         $this->publishes([
             \dirname(__DIR__).'/migrations/' => database_path('migrations'),
         ], 'favorite-migrations');
-
-        if ($this->app->runningInConsole()) {
-            $this->loadMigrationsFrom(\dirname(__DIR__).'/migrations/');
-        }
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(
             \dirname(__DIR__).'/config/favorite.php',
