@@ -25,7 +25,7 @@ trait Favoriteable
 
     public function hasBeenFavoritedBy(Model $user): bool
     {
-        if (! \is_a($user, config('auth.providers.users.model'))) {
+        if (! \is_a($user, config('favorite.favoriter_model'))) {
             return false;
         }
 
@@ -45,7 +45,7 @@ trait Favoriteable
     public function favoriters(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(
-            config('auth.providers.users.model'),
+            config('favorite.favoriter_model'),
             config('favorite.favorites_table'),
             'favoriteable_id',
             config('favorite.user_foreign_key')
