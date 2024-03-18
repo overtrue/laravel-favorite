@@ -20,4 +20,9 @@ return [
      * Model name for favorite record.
      */
     'favorite_model' => Overtrue\LaravelFavorite\Favorite::class,
+
+     /*
+     * Model name for favoriter model.
+     */
+    'favoriter_model' => App\Models\User::class,
 ];
