@@ -15,7 +15,7 @@ class FeatureTest extends TestCase
 
         Event::fake();
 
-        config(['auth.providers.users.model' => User::class]);
+        config(['favorite.favorite_model' => config('favorite.favorite_model')]);
     }
 
     public function test_basic_features()
