@@ -57,7 +57,7 @@ trait Favoriter
         return $this->hasMany(config('favorite.favorite_model'), config('favorite.user_foreign_key'), $this->getKeyName());
     }
 
-    public function attachFavoriteStatus(&$favoriteables, callable $resolver = null)
+    public function attachFavoriteStatus(&$favoriteables, ?callable $resolver)
     {
         $favorites = $this->favorites()->get()->keyBy(function ($item) {
             return \sprintf('%s-%s', $item->favoriteable_type, $item->favoriteable_id);
