@@ -4,14 +4,16 @@ namespace Overtrue\LaravelFavorite;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 use Overtrue\LaravelFavorite\Events\Favorited;
 use Overtrue\LaravelFavorite\Events\Unfavorited;
 
 /**
- * @property \Illuminate\Database\Eloquent\Model $user
- * @property \Illuminate\Database\Eloquent\Model $favoriter
- * @property \Illuminate\Database\Eloquent\Model $favoriteable
+ * @property Model $user
+ * @property Model $favoriter
+ * @property Model $favoriteable
  */
 class Favorite extends Model
 {
@@ -43,17 +45,17 @@ class Favorite extends Model
         });
     }
 
-    public function favoriteable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    public function favoriteable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(\config('favorite.favoriter_model'), \config('favorite.user_foreign_key'));
     }
 
-    public function favoriter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function favoriter(): BelongsTo
     {
         return $this->user();
     }

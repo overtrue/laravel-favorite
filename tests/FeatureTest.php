@@ -2,6 +2,7 @@
 
 namespace Overtrue\LaravelFavorite\Tests;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 use Overtrue\LaravelFavorite\Events\Favorited;
 use Overtrue\LaravelFavorite\Events\Unfavorited;
@@ -315,7 +316,7 @@ class FeatureTest extends TestCase
         $this->assertDatabaseCount('favorites', 0);
     }
 
-    protected function getQueryLog(\Closure $callback): \Illuminate\Support\Collection
+    protected function getQueryLog(\Closure $callback): Collection
     {
         $sqls = \collect([]);
         \DB::listen(function ($query) use ($sqls) {

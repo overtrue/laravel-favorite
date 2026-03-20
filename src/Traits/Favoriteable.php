@@ -2,11 +2,14 @@
 
 namespace Overtrue\LaravelFavorite\Traits;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 /**
- * @property \Illuminate\Database\Eloquent\Collection $favoriters
- * @property \Illuminate\Database\Eloquent\Collection $favorites
+ * @property Collection $favoriters
+ * @property Collection $favorites
  */
 trait Favoriteable
 {
@@ -37,12 +40,12 @@ trait Favoriteable
             ->where(\config('favorite.user_foreign_key'), $user->getKey())->count() > 0;
     }
 
-    public function favorites(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function favorites(): MorphMany
     {
         return $this->morphMany(config('favorite.favorite_model'), 'favoriteable');
     }
 
-    public function favoriters(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function favoriters(): BelongsToMany
     {
         return $this->belongsToMany(
             config('favorite.favoriter_model'),
