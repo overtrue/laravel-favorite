@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\User;
+use Overtrue\LaravelFavorite\Favorite;
+
 return [
     /**
      * Use uuid as primary key.
@@ -19,10 +22,10 @@ return [
     /*
      * Model name for favorite record.
      */
-    'favorite_model' => Overtrue\LaravelFavorite\Favorite::class,
+    'favorite_model' => Favorite::class,
 
-     /*
+    /*
      * Model name for favoriter model.
      */
-    'favoriter_model' => App\Models\User::class,
+    'favoriter_model' => User::class,
 ];

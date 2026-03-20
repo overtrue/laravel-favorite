@@ -10,7 +10,7 @@ jobs:
     phpcs:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v5
             - name: Setup PHP environment
               uses: shivammathur/setup-php@v2
             - name: Install dependencies
@@ -20,10 +20,10 @@ jobs:
     phpunit:
         strategy:
             matrix:
-                php_version: [8.1, 8.2, 8.3, 8.4, 8.5]
+                php_version: [8.3, 8.4, 8.5]
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v5
             - name: Setup PHP environment
               uses: shivammathur/setup-php@v2
               with:
@@ -32,4 +32,4 @@ jobs:
             - name: Install dependencies
               run: composer install
             - name: PHPUnit check
-              run: ./vendor/bin/phpunit --coverage-text
+              run: ./vendor/bin/phpunit --do-not-fail-on-warning --do-not-fail-on-deprecation

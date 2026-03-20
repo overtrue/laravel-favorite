@@ -2,6 +2,4 @@
 
 namespace Overtrue\LaravelFavorite\Events;
 
-class Unfavorited extends Event
-{
-}
+class Unfavorited extends Event {}
